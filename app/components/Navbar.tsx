@@ -2,6 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useDarkMode } from "./hooks/useDarkMode";
 
 interface NavLinks {
     label?:string;
@@ -10,6 +11,8 @@ interface NavLinks {
 }
 
 export default function Navbar() {
+    const {isDark, toggleDarkMode} = useDarkMode()
+
     const mainLinks: NavLinks[] =[
         {label: "Rahat Hossain", href: "/"}
     ]
@@ -30,15 +33,15 @@ export default function Navbar() {
 
     return (
     <nav className="bg-nav">
-        <div className="flex justify-between">
-            <div>
+        <div className="flex justify-between items-center px-4 py-4 border-b border-neutral-200 dark:border-neutral-700">
+            <div className="flex items-center sm:hidden text-foreground">
                 {mainLinks.map ((link, idx) =>(
                     <Link key={idx} href={link.href} >
                         {link.label}
                     </Link>
                 ))}
             </div>
-            <div>
+            <div className="flex sm:flex-col-reverse gap-4 items-center">
                 {userLinks.map ((link, idx) =>(
                     <Link key={idx} href={link.href} >
                         {link.image && <Image 
@@ -49,8 +52,36 @@ export default function Navbar() {
                         />}
                     </Link>
                 ))}
+                <button onClick={toggleDarkMode} 
+                className=""
+                >
+                    <Image 
+                    src={isDark ? "/images/svg/light.svg" : "/images/svg/dark.svg"}
+                    alt="Mode"
+                    width={25}
+                    height={25}
+                    />
+                </button>
+                <div className="flex flex-col gap-2">
+                    <span className="bg-brand w-5 h-1"></span>
+                    <span className="bg-brand w-5 h-1"></span>
+                    <span className="bg-brand w-5 h-1"></span>
+                </div>
             </div>
         </div>
+
+        <div className="flex sm:flex-col sm:gap-4 justify-between px-8 py-4">
+                {secLinks.map ((link, idx) =>(
+                    <Link key={idx} href={link.href} >
+                        {link.image && <Image 
+                        src={link.image}
+                        alt="Button"
+                        height={25}
+                        width={25}
+                        />}
+                    </Link>
+                ))}
+            </div>
     </nav>
     )
 }

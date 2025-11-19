@@ -3,8 +3,81 @@
 export default function About () {
 
     return (
-        <main>
+        <main className="text-pg">
     <div>
+        dpgvfoknvoksdhnjfndsojklfbvnajdsbfjkbadsfjbjfbjasbjfabonaofnldsanfjndskfgkds
+        dlmsfvjdsnofnblsdngls
+        dslkdsnjklngldsng
+        fdldsaokfnoknopn
+    </div>
+    <div>
+        dpgvfoknvoksdhnjfndsojklfbvnajdsbfjkbadsfjbjfbjasbjfabonaofnldsanfjndskfgkds
+        dlmsfvjdsnofnblsdngls
+        dslkdsnjklngldsng
+        fdldsaokfnoknopn
+    </div>\
+    <div>
+        dpgvfoknvoksdhnjfndsojklfbvnajdsbfjkbadsfjbjfbjasbjfabonaofnldsanfjndskfgkds
+        dlmsfvjdsnofnblsdngls
+        dslkdsnjklngldsng
+        fdldsaokfnoknopn
+    </div>
+    <div>
+        dpgvfoknvoksdhnjfndsojklfbvnajdsbfjkbadsfjbjfbjasbjfabonaofnldsanfjndskfgkds
+        dlmsfvjdsnofnblsdngls
+        dslkdsnjklngldsng
+        fdldsaokfnoknopn
+    </div>
+    <div>
+        dpgvfoknvoksdhnjfndsojklfbvnajdsbfjkbadsfjbjfbjasbjfabonaofnldsanfjndskfgkds
+        dlmsfvjdsnofnblsdngls
+        dslkdsnjklngldsng
+        fdldsaokfnoknopn
+    </div>
+    <div>
+        dpgvfoknvoksdhnjfndsojklfbvnajdsbfjkbadsfjbjfbjasbjfabonaofnldsanfjndskfgkds
+        dlmsfvjdsnofnblsdngls
+        dslkdsnjklngldsng
+        fdldsaokfnoknopn
+    </div>
+    <div>
+        dpgvfoknvoksdhnjfndsojklfbvnajdsbfjkbadsfjbjfbjasbjfabonaofnldsanfjndskfgkds
+        dlmsfvjdsnofnblsdngls
+        dslkdsnjklngldsng
+        fdldsaokfnoknopn
+    </div>
+    <div>
+        dpgvfoknvoksdhnjfndsojklfbvnajdsbfjkbadsfjbjfbjasbjfabonaofnldsanfjndskfgkds
+        dlmsfvjdsnofnblsdngls
+        dslkdsnjklngldsng
+        fdldsaokfnoknopn
+    </div>
+    <div>
+        dpgvfoknvoksdhnjfndsojklfbvnajdsbfjkbadsfjbjfbjasbjfabonaofnldsanfjndskfgkds
+        dlmsfvjdsnofnblsdngls
+        dslkdsnjklngldsng
+        fdldsaokfnoknopn
+    </div>
+    <div>
+        dpgvfoknvoksdhnjfndsojklfbvnajdsbfjkbadsfjbjfbjasbjfabonaofnldsanfjndskfgkds
+        dlmsfvjdsnofnblsdngls
+        dslkdsnjklngldsng
+        fdldsaokfnoknopn
+    </div>
+    <div>
+        dpgvfoknvoksdhnjfndsojklfbvnajdsbfjkbadsfjbjfbjasbjfabonaofnldsanfjndskfgkds
+        dlmsfvjdsnofnblsdngls
+        dslkdsnjklngldsng
+        fdldsaokfnoknopn
+    </div>
+
+    <div>
+        dpgvfoknvoksdhnjfndsojklfbvnajdsbfjkbadsfjbjfbjasbjfabonaofnldsanfjndskfgkds
+        dlmsfvjdsnofnblsdngls
+        dslkdsnjklngldsng
+        fdldsaokfnoknopn
+    </div>
+     <div>
         dpgvfoknvoksdhnjfndsojklfbvnajdsbfjkbadsfjbjfbjasbjfabonaofnldsanfjndskfgkds
         dlmsfvjdsnofnblsdngls
         dslkdsnjklngldsng

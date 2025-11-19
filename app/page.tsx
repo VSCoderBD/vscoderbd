@@ -6,18 +6,17 @@ export default function Home() {
   return (
     <main>
       <div className="flex flex-col lg:flex-row items-center sm:items-start gap-6">
-        <div className="flex-shrink-0 lg:fixed">
+        <div className="flex-shrink-0">
           <Image 
             src="/images/brand/rahat.webp"
             alt="Rahat Hossain"
             height={300}
             width={300}
-            className="w-[300px] h-[300px] object-cover"
+            className="w-[300px] h-[300px] object-cover lg:fixed"
           />
         </div>
 
-        {/* ABOUT SECTION */}
-        <div className="text-center sm:text-left"> 
+        <div className="text-center sm:text-left lg:pl-80"> 
           <About />
         </div>
 
