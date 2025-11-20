@@ -29,15 +29,11 @@ export default function Home() {
         <div className="absolute inset-0 z-0 hidden sm:block">
   <BubbleCanvas />
 </div>
-        <div 
-          className="relative z-10 
-                     lg:h-full lg:overflow-y-auto"
-        >
-          <div className="sm:backdrop-blur-2xl p-4 rounded-xl">
-            <About />
-            
-          </div>
-        </div>
+       <div className="relative z-10 lg:h-full lg:overflow-y-auto">
+  <div className="sm:backdrop-blur-2xl sm:p-4 rounded-xl">
+    <About />
+  </div>
+</div>
       </div>
     </main>
   );
