@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useDarkMode } from "./hooks/useDarkMode";
+import TypingAnimation from "./features/TypingAnimation";
 
 interface NavbarProps {
   className?: string; 
@@ -38,12 +39,16 @@ export default function Navbar({ className }: NavbarProps) {
     return (
     <nav className="bg-nav lg:-skew-x-3 lg:origin-top-left lg:ml-6">
         <div className="flex justify-between items-center px-4 py-4 border-b border-neutral-200 dark:border-neutral-700">
-            <div className="flex items-center sm:hidden text-foreground">
+            <div className="flex flex-col items-start sm:hidden text-foreground">
                 {mainLinks.map((link, idx) => (
-                    <Link key={idx} href={link.href}>
+                    <Link key={idx} href={link.href}
+                    className="text-[15px]"
+                    >
                         {link.label}
                     </Link>
                 ))}
+                <div className="mt-[-5px] text-brand text-[15px]"><TypingAnimation /></div>
+                
             </div>
             <div className="flex sm:flex-col-reverse sm:justify-center gap-4 items-center sm:w-full">
                 {userLinks.map((link, idx) => (
