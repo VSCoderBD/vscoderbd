@@ -25,17 +25,15 @@ export default function Home() {
       </div>
       
       <div className="relative lg:right-0 lg:left-36 lg:fixed lg:-skew-x-3 lg:origin-top-left rounded-xl flex-1 lg:ml-[340px] overflow-hidden lg:h-[90vh]">
-        
-        {/* BubbleCanvas - কন্টেইনারের মধ্যে স্থির থাকবে (absolute position) */}
-        <div className="absolute  inset-0 z-0">
-          <BubbleCanvas />
-        </div>
-
+  
+        <div className="absolute inset-0 z-0 hidden sm:block">
+  <BubbleCanvas />
+</div>
         <div 
           className="relative z-10 
-                     lg:h-full lg:overflow-y-auto" // 💡 পরিবর্তন: lg:h-full এবং lg:overflow-y-auto যোগ করা হলো
+                     lg:h-full lg:overflow-y-auto"
         >
-          <div className="backdrop-blur-2xl p-4 rounded-xl">
+          <div className="sm:backdrop-blur-2xl p-4 rounded-xl">
             <About />
             
           </div>

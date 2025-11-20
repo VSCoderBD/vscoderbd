@@ -70,7 +70,6 @@ body {
   clip-path: inset(20% 0 60% 0);
 }
 
-/* মূল গ্লিচ অ্যানিমেশন */
 @keyframes glitch-shift {
   0% {
     transform: translate(2px, 2px) scale(1.02);
