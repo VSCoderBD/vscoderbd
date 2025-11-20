@@ -2,15 +2,28 @@
 
 import { useEffect, useRef } from "react";
 
+interface Bubble {
+  x: number;
+  y: number;
+  r: number;
+  dx: number;
+  dy: number;
+  color: string;
+}
+
 export default function BubbleCanvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
-    const canvas = canvasRef.current!;
-    const ctx = canvas.getContext("2d")!;
-    const parent = canvas.parentElement!;
+    const canvas = canvasRef.current;
+    const parent = canvas?.parentElement;
 
-    // Canvas always = parent size
+    if (!canvas || !parent) return; // canvas বা parent না থাকলে exit
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return; // ctx না থাকলে exit
+
+    // Canvas সবসময় parent এর size এর সমান
     const resize = () => {
       canvas.width = parent.clientWidth;
       canvas.height = parent.clientHeight;
@@ -19,16 +32,17 @@ export default function BubbleCanvas() {
 
     const colors = ["rgba(183,255,111,0.7)"];
 
-    const bubbles = Array.from({ length: 50 }).map(() => ({
+    const bubbles: Bubble[] = Array.from({ length: 50 }).map(() => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
       r: 30 + Math.random() * 50,
-      dx: (Math.random() - 0.5) * 2.8 * 5, // 5 গুণ দ্রুত
-      dy: (Math.random() - 0.5) * 2.8 * 5, // 5 গুণ দ্রুত
+      dx: (Math.random() - 0.5) * 2.8 * 5, // গতিবেগ 5 গুণ বেশি
+      dy: (Math.random() - 0.5) * 2.8 * 5,
       color: colors[0],
     }));
 
-    function draw() {
+    const draw = () => {
+      // Canvas clear করা
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.globalCompositeOperation = "lighter";
 
@@ -36,16 +50,16 @@ export default function BubbleCanvas() {
         b.x += b.dx;
         b.y += b.dy;
 
-        // wrap inside only parent
+        // Parent এর ভিতরে wrap করা
         if (b.x - b.r > canvas.width) b.x = -b.r;
         if (b.x + b.r < 0) b.x = canvas.width + b.r;
         if (b.y - b.r > canvas.height) b.y = -b.r;
         if (b.y + b.r < 0) b.y = canvas.height + b.r;
 
-        const g = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
-        g.addColorStop(0, b.color);
-        g.addColorStop(1, "rgba(0,0,0,0)");
-        ctx.fillStyle = g;
+        const gradient = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
+        gradient.addColorStop(0, b.color);
+        gradient.addColorStop(1, "rgba(0,0,0,0)");
+        ctx.fillStyle = gradient;
 
         ctx.beginPath();
         ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
@@ -53,14 +67,15 @@ export default function BubbleCanvas() {
       });
 
       requestAnimationFrame(draw);
-    }
+    };
 
     draw();
 
-    const obs = new ResizeObserver(resize);
-    obs.observe(parent);
+    // Parent resize হলে canvas resize করা
+    const resizeObserver = new ResizeObserver(resize);
+    resizeObserver.observe(parent);
 
-    return () => obs.disconnect();
+    return () => resizeObserver.disconnect();
   }, []);
 
   return (
