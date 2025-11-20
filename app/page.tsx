@@ -6,8 +6,6 @@ import BubbleCanvas from "./components/BubbleCanvas";
 export default function Home() {
   return (
     <main className="relative w-full flex flex-col lg:flex-row gap-6">
-      
-      {/* Left Image - Large screen e fixed */}
       <div 
         className="relative lg:ml-6 flex-shrink-0 w-full h-[500px] 
                    lg:fixed z-20 lg:w-[300px] lg:h-[95%] 
@@ -22,27 +20,16 @@ export default function Home() {
           sizes="(max-width: 1024px) 100vw, 300px "
         />
       </div>
-      
-      {/* Right Section */}
       <div className="relative lg:right-0 lg:left-36 lg:fixed lg:-skew-x-3 lg:origin-top-left rounded-xl flex-1 lg:ml-[340px] overflow-hidden lg:h-[93vh]">
-
-        {/* Bubble Background Layer (Mobile hidden) */}
         <div className="absolute inset-0 z-0 hidden sm:block rounded-xl overflow-hidden pointer-events-none">
-
-          {/* Bubble animation (bottom layer) */}
           <div className="absolute inset-0 rounded-xl">
             <BubbleCanvas />
           </div>
-
-          {/* Blur + dark overlay (top layer) */}
           <div className="absolute inset-0 backdrop-blur-lg bg-zinc-800/60 rounded-xl"></div>
         </div>
-
-        {/* Foreground Content */}
         <div className="relative z-10 sm:m-5 lg:h-full lg:overflow-y-auto">
           <About />
         </div>
-
       </div>
     </main>
   );

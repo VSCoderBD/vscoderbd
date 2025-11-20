@@ -22,7 +22,7 @@ export default function Navbar({ className }: NavbarProps) {
     ]
 
     const userLinks: NavLinks[] = [
-        { image: "/images/svg/shop.svg", href: "/" } // <-- corrected path
+        { image: "/images/svg/shop.svg", href: "/" }
     ]
 
     const secLinks: NavLinks[] = [
@@ -53,6 +53,7 @@ export default function Navbar({ className }: NavbarProps) {
                         alt="Button"
                         height={25}
                         width={25}
+                        className="icon-filter"
                         />}
                     </Link>
                 ))}
@@ -62,12 +63,13 @@ export default function Navbar({ className }: NavbarProps) {
                     alt="Mode"
                     width={25}
                     height={25}
+                    className="icon-filter"
                     />
                 </button>
-                <div className="flex flex-col gap-2">
-                    <span className="bg-brand w-5 h-1"></span>
-                    <span className="bg-brand w-5 h-1"></span>
-                    <span className="bg-brand w-5 h-1"></span>
+                <div className="flex flex-col gap-[5px] group">
+                    <span className="bg-foreground w-5 h-[2px] group-hover:bg-brand group-hover:w-6 transition-all"></span>
+                    <span className="bg-foreground w-6 h-[2px] group-hover:bg-brand group-hover:w-6 transition-all"></span>
+                    <span className="bg-foreground w-4 h-[2px] group-hover:bg-brand group-hover:w-6 transition-all"></span>
                 </div>
             </div>
         </div>
@@ -80,6 +82,7 @@ export default function Navbar({ className }: NavbarProps) {
                     alt="Button"
                     height={25}
                     width={25}
+                    className="icon-filter"
                     />}
                 </Link>
             ))}
