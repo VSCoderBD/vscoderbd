@@ -52,7 +52,7 @@ export default function Hero() {
 <a href="#" className="flex gap-2 p-4 w-[50%] justify-center group"> 
   DOWNLOAD CV
   <Image 
-    src="/images/contacts/cv-download.svg" 
+    src="/images/svg/contacts/cv-download.svg" 
     alt="Contact"
     width={20}
     height={20}
@@ -63,7 +63,7 @@ export default function Hero() {
 <a href="#" className="flex gap-2 p-4 w-[50%] justify-center group"> 
   CONTACT ME
   <Image 
-    src="/images/contacts/contact-me.svg" 
+    src="/images/svg/contacts/contact-me.svg" 
     alt="Contact"
     width={20}
     height={20}

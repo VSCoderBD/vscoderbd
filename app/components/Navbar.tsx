@@ -50,7 +50,7 @@ export default function Navbar({ className }: NavbarProps) {
 
                 <button onClick={toggleDarkMode}>
                     <Image 
-                    src={isDark ? "/images/svg/light.svg" : "/images/svg/dark.svg"}
+                    src={isDark ? "/images/svg/nav-svg/light.svg" : "/images/svg/nav-svg/dark.svg"}
                     alt="Mode"
                     width={25}
                     height={25}
