@@ -67,9 +67,9 @@ export default function Navbar({ className }: NavbarProps) {
 
         <div className="flex sm:flex-col sm:gap-4 justify-between py-4 overflow-x-auto scroll-smooth scrollbar-custom">
             {secLinks.map((link, idx) => (
-    <button 
-    key={idx} 
-    onClick={() => scrollToSection(link.sec)}  
+<button 
+  key={idx} 
+  onClick={() => link.sec && scrollToSection(link.sec)} 
     className="flex-shrink-0 w-[20%] sm:w-[100%] flex items-center justify-center"
     >
                     {link.image && <Image 
