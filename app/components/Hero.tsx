@@ -36,17 +36,15 @@ export default function Hero() {
 
 <div className="flex mb-14 gap-4">
   {contactLinks.map((link, idx) => (
+  link.href && (
     <Link key={idx} href={link.href}>
       <div className="filter invert brightness-0 hover:filter-none transition-all duration-200 cursor-pointer">
-        <Image 
-          src={link.image!} 
-          alt="Contact" 
-          height={20} 
-          width={20} 
-        />
+        <Image src={link.image!} alt="Contact" width={22} height={22} />
       </div>
     </Link>
-  ))}
+  )
+))}
+
 </div>
 
  <div className="flex w-full text-sm text-white font-extrabold justify-between border-t border-white !cursor-pointer relative">

@@ -1,6 +1,7 @@
 interface TypeLinks {
     label?: string;
-    href: string;
+    href?: string;
+    sec?:string;
     image?: string;
 }
 
@@ -13,14 +14,15 @@ interface TypeLinks {
     ]
 
    export const secLinks: TypeLinks[] = [
-        { image: "/images/svg/profile.svg", href: "/" },
-        { image: "/images/svg/works.svg", href: "/" },
-        { image: "/images/svg/skills.svg", href: "/" },
-        { image: "/images/svg/resume.svg", href: "/" },
-        { image: "/images/svg/blog.svg", href: "/" },
-        { image: "/images/svg/contact.svg", href: "/" },
-        { image: "/images/svg/lessons.svg", href: "/" },
-    ]
+    { image: "/images/svg/profile.svg", sec: "about" },
+    { image: "/images/svg/works.svg", sec: "works" },
+    { image: "/images/svg/skills.svg", sec: "skills" },
+    { image: "/images/svg/resume.svg", sec: "resume" },
+    { image: "/images/svg/contact.svg", sec: "contact" },
+    { image: "/images/svg/blog.svg", sec: "blog" },
+    { image: "/images/svg/lessons.svg", sec: "lessons" },
+]
+
 
    export const contactLinks: TypeLinks [] = [
     { image: "/images/contacts/call.svg", href: "/" },

@@ -21,8 +21,8 @@ export default function Home() {
         </div>
 
         <div className="relative flex flex-col z-10 gap-10 sm:m-5 lg:h-full lg:overflow-y-auto">
-          <About />
-          <Services />
+          <div id="about"><About /></div>
+          <div><Services /></div>
         </div>
       </div>
     </main>

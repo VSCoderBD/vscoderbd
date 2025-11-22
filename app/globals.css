@@ -19,6 +19,10 @@
   --font-mono: var(--font-geist-mono);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 html.dark {
   --background: #3a3939;
   --foreground: white;
@@ -44,6 +48,15 @@ body {
 
 .icon-filter:hover {
   filter: brightness(1) invert(0);
+}
+
+.scrollbar-custom::-webkit-scrollbar {
+  height: 15px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background-color: #757575;
+  border-radius: 6px;
 }
 
 

@@ -13,34 +13,41 @@ interface NavbarProps {
 export default function Navbar({ className }: NavbarProps) {
     const { isDark, toggleDarkMode } = useDarkMode()
 
-
+    const scrollToSection = (id:string) => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.scrollIntoView({behavior: "smooth", block: "start"})
+        }
+    }
 
     return (
     <nav className="bg-nav lg:-skew-x-3 lg:origin-top-left lg:ml-6">
         <div className="flex justify-between items-center px-4 py-4 border-b border-neutral-200 dark:border-neutral-700">
             <div className="flex flex-col items-start sm:hidden text-foreground">
                 {mainLinks.map((link, idx) => (
-                    <Link key={idx} href={link.href}
-                    className="text-[15px]"
-                    >
-                        {link.label}
-                    </Link>
-                ))}
+                 link.href && (
+                 <Link key={idx} href={link.href}>
+                  {link.label}
+               </Link>
+             )
+            ))}
+
                 <div className="mt-[-5px] text-brand text-[15px]"><TypingAnimation /></div>
                 
             </div>
             <div className="flex sm:flex-col-reverse sm:justify-center gap-4 items-center sm:w-full">
                 {userLinks.map((link, idx) => (
-                    <Link key={idx} href={link.href}>
-                        {link.image && <Image 
-                        src={link.image}
-                        alt="Button"
-                        height={25}
-                        width={25}
-                        className="icon-filter"
-                        />}
-                    </Link>
-                ))}
+  <Link key={idx} href={link.href!}> {/* ! added here */}
+    {link.image && <Image 
+      src={link.image!} 
+      alt="Button"
+      height={25}
+      width={25}
+      className="icon-filter"
+    />}
+  </Link>
+))}
+
                 <button onClick={toggleDarkMode}>
                     <Image 
                     src={isDark ? "/images/svg/light.svg" : "/images/svg/dark.svg"}
@@ -58,9 +65,13 @@ export default function Navbar({ className }: NavbarProps) {
             </div>
         </div>
 
-        <div className="flex sm:flex-col sm:gap-4 justify-between px-8 py-4">
+        <div className="flex sm:flex-col sm:gap-4 justify-between py-4 overflow-x-auto scroll-smooth scrollbar-custom">
             {secLinks.map((link, idx) => (
-                <Link key={idx} href={link.href}>
+    <button 
+    key={idx} 
+    onClick={() => scrollToSection(link.sec)}  
+    className="flex-shrink-0 w-[20%] sm:w-[100%] flex items-center justify-center"
+    >
                     {link.image && <Image 
                     src={link.image}
                     alt="Button"
@@ -68,7 +79,7 @@ export default function Navbar({ className }: NavbarProps) {
                     width={25}
                     className="icon-filter"
                     />}
-                </Link>
+                </button>
             ))}
         </div>
     </nav>
