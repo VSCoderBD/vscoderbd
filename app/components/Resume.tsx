@@ -20,7 +20,7 @@ export default function Resume () {
                 </div>
 
 <div className="relative border-l border-pg pl-4 ml-2">
-  <div className="absolute -left-[7px] top-0 w-3 h-3 bg-brand rounded-full border border-white"></div>
+  <div className="absolute -left-[7px] top-0 w-3 h-3 bg-brand rounded-full"></div>
   <div className="inline-block text-brand px-2 border border-brand rounded-md">2025-Present</div>
   <div  className="text-white font-extrabold pb-2">Front-End Web Developer</div>
   <p className="text-sm pb-2">Next.js, Typescript, Tailwind</p>
@@ -40,7 +40,7 @@ export default function Resume () {
                     <h3>EDUCATION</h3>
                 </div>
 <div className="relative border-l pl-4 border-pg ml-2">
-  <div className="absolute -left-[7px] top-0 w-3 h-3 bg-brand rounded-full border border-white"></div>
+  <div className="absolute -left-[7px] top-0 w-3 h-3 bg-pg rounded-full"></div>
   <div className="inline-block text-pg px-2 border border-pg rounded-md">2008-Present</div>
   <div className="text-white font-extrabold pb-2">High School</div>
   <p className="text-sm pb-2">Munshiganj</p>

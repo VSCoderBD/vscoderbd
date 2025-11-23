@@ -13,14 +13,14 @@ export default function About () {
 >
   <h2 className="text-xl font-extrabold"><span className="text-brand font-extrabold">A</span>bout</h2>
 </div>
-            <div className="lg:flex justify-between">
+            <div className="grid grid-cols-1 lg:gap-6 lg:grid-cols-2 justify-between">
             
-<div className="lg:w-1/2">
+<div>
 
                 <p>I’m Rahat Hossain, a fron-end NEXT.JS Web Designer & Developer from Dhaka, Bangladesh. I specialize in responsive website design, Next.js, Typescript, Tailwind development, and SEO-friendly digital solutions.</p>
             </div>
 
-            <div className="flex flex-col gap-2 lg:w-1/2">
+            <div className="flex flex-col gap-2">
 <div
   className="flex justify-between items-center pb-2"
   style={{
