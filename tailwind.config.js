@@ -16,6 +16,7 @@ module.exports = {
         pg: "var(--pg-color)",
         background: "var(--background)",
         foreground: "var(--foreground)",
+        bd: "var(--bd-color)",
       },
     },
   },
