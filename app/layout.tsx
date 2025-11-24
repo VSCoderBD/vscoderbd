@@ -26,7 +26,7 @@ export default function RootLayout() {
             <LoadingAnimation size={140} bgColor="rgb(46, 45, 45)" duration={2} />
           </div>
         ) : (
-          <div className="flex flex-col lg:pl-2 sm:flex-row h-full min-h-screen z-10 relative overflow-hidden">
+          <div className="flex flex-col  lg:pl-2 sm:flex-row h-full min-h-screen z-10 relative overflow-hidden">
             <Navbar setActiveSection={setActiveSection} className="w-full sm:w-[220px] shrink-0" />
             <main className="flex-1 w-full p-4 text-white text-xl overflow-y-auto scroll-smooth scrollbar-sec">
               <Home activeSection={activeSection} setActiveSection={setActiveSection} />
