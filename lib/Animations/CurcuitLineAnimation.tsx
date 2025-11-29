@@ -7,15 +7,11 @@ interface Props {
   className?: string;
 }
 
-export default function CurcuitLineAnimation({ className }: Props) {
+export default function CircuitLineAnimation({ className }: Props) {
   const mountRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!mountRef.current) return;
-
-    // **❌ WebGPU/Adapter Error Fix Simulation (Not needed in this THREE.js code)**
-    // যেহেতু এটি Three.js কোড (WebGL ব্যবহার করে), তাই এখানে navigator.gpu চেক করার দরকার নেই।
-    // যদি কোনো কারণে WebGL কনটেক্সট তৈরি না হয়, তাহলে এটি স্বয়ংক্রিয়ভাবে ব্যর্থ হবে।
 
     let width = window.innerWidth;
     let height = window.innerHeight;
@@ -23,8 +19,6 @@ export default function CurcuitLineAnimation({ className }: Props) {
     // -------- Renderer --------
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     
-    // WebGL Renderer তৈরি না হলে, এখানে কোড ক্র্যাশ করতে পারে। 
-    // যদি renderer তৈরি না হয়, আমরা return করে দেবো।
     if (!renderer) {
         console.error("WebGL Renderer failed to initialize.");
         return;
@@ -52,100 +46,60 @@ export default function CurcuitLineAnimation({ className }: Props) {
     const totalLinePaths = isMobile ? 150 : 400;
     const maxAnimatedLines = isMobile ? 20 : 60;
     
-    // **FINAL OPTIMIZATION VARIABLES (Circular Buffer Setup)**
-    const MAX_POINTS = isMobile ? 30000 : 100000;
-    const MAX_COMPONENTS = MAX_POINTS * 3; // 3D পজিশন: x, y, z
-
-    // mergedPositions: প্রি-অ্যালোকেটেড Float32Array (FIFO Data)
-    const mergedPositions = new Float32Array(MAX_COMPONENTS); 
-    
-    // mergedPathSegments: FIFO বাফার ম্যানেজ করার জন্য প্রতিটি লাইনের কম্পোনেন্ট সংখ্যা রাখে।
-    const mergedPathSegments: number[] = []; 
-    
-    // totalActiveComponents: বর্তমানে কত কম্পোনেন্ট রেন্ডার হচ্ছে তার হিসেব রাখে।
-    let totalActiveComponents = 0;
-    // **END FINAL OPTIMIZATION VARIABLES**
-
-
-    const animatedLines: AnimatedLine[] = [];
-
     type Point2D = { x: number; y: number };
-
-    // -----------------------------
-    // MERGED BACKGROUND BUFFER
-    // -----------------------------
-    const mergedBackgroundGeometry = new THREE.BufferGeometry();
     
-    mergedBackgroundGeometry.setAttribute(
-      "position",
-      new THREE.BufferAttribute(mergedPositions, 3).setUsage(THREE.DynamicDrawUsage)
-    );
-    mergedBackgroundGeometry.setDrawRange(0, 0); 
+    // ------------------------------------
+    // PERMANENT BACKGROUND SETUP (New)
+    // ------------------------------------
+    // স্থায়ীভাবে সব ব্যাকগ্রাউন্ড লাইন রাখার জন্য একটি ডাইনামিক বাফার
+    const permanentGeometry = new THREE.BufferGeometry();
+    const permanentPositions: number[] = [];
+    let permanentLine: THREE.LineSegments | null = null; 
 
-    const mergedBackgroundMaterial = new THREE.LineBasicMaterial({
-      color: 0x333333,
-      linewidth: 1,
+    // ব্যাকগ্রাউন্ডের ম্যাটেরিয়াল
+    const backgroundMaterial = new THREE.LineBasicMaterial({
+        color: 0x333333,
+        linewidth: 1,
     });
 
-    const mergedBackgroundLine = new THREE.LineSegments(
-      mergedBackgroundGeometry,
-      mergedBackgroundMaterial
-    );
-    scene.add(mergedBackgroundLine);
-
     /**
-     * নতুন পথকে সার্কুলার বাফারে যুক্ত করে।
-     * এটিই ল্যাগ-মুক্ত FIFO লজিক।
+     * নতুন পথকে স্থায়ী ব্যাকগ্রাউন্ড বাফারে যুক্ত করে।
      */
-    function mergePath(path: Point2D[]) {
-      const pathComponents: number[] = []; 
+    function mergePathPermanent(path: Point2D[]) {
+        for (let i = 0; i < path.length - 1; i++) {
+            const p1 = path[i];
+            const p2 = path[i + 1];
+            // দুটি পয়েন্টের 6টি কম্পোনেন্ট (x1, y1, z1, x2, y2, z2)
+            permanentPositions.push(p1.x, p1.y, 0, p2.x, p2.y, 0);
+        }
 
-      for (let i = 0; i < path.length - 1; i++) {
-        const p1 = path[i];
-        const p2 = path[i + 1];
-        pathComponents.push(p1.x, p1.y, 0, p2.x, p2.y, 0);
-      }
-      
-      const newComponentCount = pathComponents.length;
-      let componentsToRemove = 0;
+        // Geometry এবং Attribute আপডেট করা
+        permanentGeometry.setAttribute(
+            "position",
+            new THREE.Float32BufferAttribute(permanentPositions, 3)
+        );
+        
+        // লাইনটি এখনও দৃশ্যে যোগ না হয়ে থাকলে যোগ করা 
+        if (!permanentLine) {
+            permanentLine = new THREE.LineSegments(permanentGeometry, backgroundMaterial);
+            scene.add(permanentLine);
+        } else {
+            // যদি লাইনটি থাকে, তবে ডেটা আপডেট করা
+            permanentGeometry.attributes.position.needsUpdate = true;
+        }
+    }
+    
+    // -----------------------------
+    // ANIMATED LINE SETUP (No longer needed to be a circular buffer)
+    // -----------------------------
+    // অস্থায়ীভাবে কোনো FIFO বাফারের দরকার নেই, কারণ লাইনগুলো এখন স্থায়ী বাফারে যাচ্ছে।
+    // এই অংশটি আগের কোড থেকে সরানো হলো।
+    
+    
+    const animatedLines: AnimatedLine[] = [];
 
-      // 1. FIFO: কতগুলি পুরোনো কম্পোনেন্ট সরাতে হবে তা নির্ধারণ করা 
-      while (totalActiveComponents + newComponentCount > MAX_COMPONENTS) {
-          if (mergedPathSegments.length === 0) break;
-          
-          const oldestSegmentComponents = mergedPathSegments.shift()!;
-          componentsToRemove += oldestSegmentComponents;
-      }
-      
-      if (componentsToRemove > 0) {
-          // 2. ডেটা শিফটিং: Float32Array.copyWithin ব্যবহার করে ডেটা দ্রুত কপি করা
-          const srcStart = componentsToRemove;
-          const destStart = 0;
-          const numToCopy = totalActiveComponents - componentsToRemove;
-          
-          // ডেটা শিফট করা
-          mergedPositions.copyWithin(destStart, srcStart, srcStart + numToCopy);
-
-          totalActiveComponents = numToCopy;
-      }
-      
-      // 3. নতুন ডেটা যুক্ত করা: বাফারের শেষে নতুন ডেটা লেখা
-      let currentWriteOffset = totalActiveComponents;
-      
-      for (let i = 0; i < newComponentCount; i++) {
-        mergedPositions[currentWriteOffset + i] = pathComponents[i];
-      }
-      
-      // 4. ট্র্যাকার আপডেট করা
-      mergedPathSegments.push(newComponentCount);
-      totalActiveComponents += newComponentCount;
-
-      // 5. Geometry আপডেট করা 
-      const positionAttribute = mergedBackgroundGeometry.getAttribute('position');
-      positionAttribute.needsUpdate = true;
-
-      // Draw Range আপডেট করা
-      mergedBackgroundGeometry.setDrawRange(0, totalActiveComponents / 3); 
+    function pathToVec3(path: Point2D[]) {
+      return path.map((p) => new THREE.Vector3(p.x, p.y, 0));
     }
 
     // -------- Create Random Paths --------
@@ -171,15 +125,13 @@ export default function CurcuitLineAnimation({ className }: Props) {
         x = Math.min(Math.max(x, -width / 2), width / 2);
         y = Math.min(Math.max(y, -height / 2), height / 2);
 
-        path.push({ x, y });
+        if (path[path.length - 1].x !== x || path[path.length - 1].y !== y) {
+            path.push({ x, y });
+        }
 
         if (Math.random() < 0.3) direction = Math.floor(Math.random() * 4);
       }
       return path;
-    }
-
-    function pathToVec3(path: Point2D[]) {
-      return path.map((p) => new THREE.Vector3(p.x, p.y, 0));
     }
 
     function initializeAvailablePaths() {
@@ -192,16 +144,16 @@ export default function CurcuitLineAnimation({ className }: Props) {
     initializeAvailablePaths();
 
     // -----------------------------
-    // PRE-POPULATE BACKGROUND LINES
+    // PRE-POPULATE PERMANENT LINES
     // -----------------------------
     const initialBackgroundLines = isMobile ? 50 : 150; 
     for (let i = 0; i < initialBackgroundLines; i++) {
       const path = createRandomPath(); 
-      mergePath(path); 
+      mergePathPermanent(path); // 💡 স্থায়ী বাফারে যোগ করা 
     }
 
     // -----------------------------
-    // ANIMATED LINE CLASS (No Change)
+    // ANIMATED LINE CLASS 
     // -----------------------------
     class AnimatedLine {
       path: Point2D[];
@@ -247,7 +199,8 @@ export default function CurcuitLineAnimation({ className }: Props) {
             this.index = this.totalPoints;
             this.fading = true;
 
-            mergePath(this.path); 
+            // 💡 লাইন সম্পূর্ণ হলে স্থায়ী বাফারে যোগ করা 
+            mergePathPermanent(this.path); 
           }
 
           this.geometry.setDrawRange(0, Math.floor(this.index));
@@ -259,31 +212,37 @@ export default function CurcuitLineAnimation({ className }: Props) {
 
           if (this.opacity <= 0) {
             this.dispose();
-            return true;
+            return true; 
           }
         }
-        return false;
+        return false; 
       }
 
       dispose() {
         if (this.line.parent) {
           scene.remove(this.line);
           this.geometry.dispose();
-          (this.line.material as THREE.LineBasicMaterial).dispose();
+          (this.line.material as THREE.LineBasicMaterial).dispose(); 
         }
       }
     }
 
     // -----------------------------
-    // ANIMATION LOOP
+    // ANIMATION LOOP 
     // -----------------------------
-    function animate() {
+    let lastTime = 0;
+    const spawnInterval = 150; 
+
+    function animate(time: number) {
       requestAnimationFrame(animate);
 
-      if (animatedLines.length < maxAnimatedLines && Math.random() < 0.2) {
-        const randomIndex = Math.floor(Math.random() * availablePaths.length);
-        const randomPath = availablePaths[randomIndex];
-        animatedLines.push(new AnimatedLine(randomPath));
+      if (time - lastTime > spawnInterval) {
+        if (animatedLines.length < maxAnimatedLines) {
+          const randomIndex = Math.floor(Math.random() * availablePaths.length);
+          const randomPath = availablePaths[randomIndex];
+          animatedLines.push(new AnimatedLine(randomPath));
+        }
+        lastTime = time;
       }
 
       for (let i = animatedLines.length - 1; i >= 0; i--) {
@@ -293,7 +252,7 @@ export default function CurcuitLineAnimation({ className }: Props) {
       renderer.render(scene, camera);
     }
 
-    animate();
+    animate(0); 
 
     // -----------------------------
     // RESIZE HANDLER
@@ -313,17 +272,18 @@ export default function CurcuitLineAnimation({ className }: Props) {
       animatedLines.forEach((line) => line.dispose());
       animatedLines.length = 0;
 
-      // বাফার রিসেট
-      totalActiveComponents = 0;
-      mergedPathSegments.length = 0; 
-      mergedBackgroundGeometry.setDrawRange(0, 0); 
-      mergedBackgroundGeometry.getAttribute('position').needsUpdate = true;
+      // 💡 স্থায়ী বাফার রিসেট করা
+      permanentPositions.length = 0; 
+      if (permanentLine) {
+        scene.remove(permanentLine);
+        permanentLine = null;
+      }
 
       initializeAvailablePaths();
-      // রিসাইজের পরেও ব্যাকগ্রাউন্ড আবার পূরণ করা
+      // ব্যাকগ্রাউন্ড আবার পূরণ করা
       for (let i = 0; i < initialBackgroundLines; i++) {
         const path = createRandomPath();
-        mergePath(path);
+        mergePathPermanent(path);
       }
     };
 
@@ -334,6 +294,16 @@ export default function CurcuitLineAnimation({ className }: Props) {
     // -----------------------------
     return () => {
       window.removeEventListener("resize", handleResize);
+      
+      animatedLines.forEach((line) => line.dispose()); 
+      
+      // 💡 স্থায়ী জিনিস ডিসপোজ করা
+      permanentGeometry.dispose();
+      backgroundMaterial.dispose();
+      if (permanentLine) {
+        scene.remove(permanentLine);
+      }
+
       renderer.dispose();
       mountRef.current?.removeChild(renderer.domElement);
     };
