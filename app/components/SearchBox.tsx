@@ -28,7 +28,7 @@ export default function SearchBox() {
       />
       <button
         type="submit"
-        className=" px-4 py-2 text-xl text-foreground font-semibold hover:text-brand transition-colors"
+        className=" px-4 py-2 text-xl text-foreground font-semibold hover:text-brand transition-colors duration-500"
       >
         🔍︎
       </button>

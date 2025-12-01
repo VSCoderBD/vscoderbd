@@ -108,8 +108,8 @@ className={`
 >
             <button
             onClick={() => setIsOpen(false)}
-            className="w-full text-3xl sm:absolute bg-nav sm:w-auto sm:ml-[400px] pt-4 px-4 sm:py-2 left-0 items-center hover:text-brand"
-            >✖</button>
+            className="w-full text-3xl sm:absolute bg-nav sm:w-auto sm:ml-[400px] pt-4 px-4 sm:py-2 left-0 items-center hover:text-brand transition-colors duration-500"
+            >✕</button>
             <div className="p-6 sm:ml-20">
              <SearchBox />
              </div>
