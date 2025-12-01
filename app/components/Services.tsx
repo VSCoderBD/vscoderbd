@@ -38,8 +38,8 @@ export default function Services() {
       <div
         className="flex justify-between items-center mb-6"
         style={{
-    borderBottomWidth: "2px",
-    borderImage: "linear-gradient(to right, white, transparent) 1"
+    borderBottomWidth: "1px",
+    borderImage: "linear-gradient(to right, var(--pg-color), transparent) 1"
   }}
       >
         <h2  className="text-xl font-extrabold">
@@ -80,10 +80,10 @@ export default function Services() {
         <p
           className="text-sm pb-2"
           style={{
-            borderBottomWidth: hideBorder ? "0px" : "2px",
+            borderBottomWidth: hideBorder ? "0px" : "1px",
             borderImage: hideBorder
               ? "none"
-              : "linear-gradient(to right, transparent, white, transparent) 1",
+              : "linear-gradient(to right, transparent, var(--pg-color), transparent) 1",
           }}
         >
           {service.p}

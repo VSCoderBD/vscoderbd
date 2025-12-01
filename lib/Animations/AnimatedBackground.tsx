@@ -31,7 +31,7 @@ export default function AnimatedBackground({ className }: AnimatedBackgroundProp
     for (let i = 0; i < numberOfColorBoxes; i++) {
       const colorBox = document.createElement("div");
       colorBox.className =
-        "m-[2px] bg-[#1d1d1d] transition-all duration-[2000ms] ease-in-out hover:bg-[#00bfff] hover:duration-0 filter brightness-[1.1] pointer-events-auto";
+        "m-[2px] bg-[#1d1d1d] transition-all duration-[2000ms] ease-in-out hover:bg-[rgb(183,255,111)] hover:duration-0 filter brightness-[1.1] pointer-events-auto";
       bgAnimation.append(colorBox);
     }
   }, []);
@@ -57,7 +57,7 @@ export default function AnimatedBackground({ className }: AnimatedBackgroundProp
       {/* Moving blurred bar */}
 {/* Moving blurred green bar */}
 <div
-  className="fixed top-0 left-0 w-full h-10 pointer-events-none animate-slide-down"
+  className="fixed top-0  left-0 w-full h-10 pointer-events-none animate-slide-down"
   style={{
     backgroundColor: "rgba(183, 255, 111, 1)", // stronger opacity
     filter: "blur(80px) drop-shadow(0 0 20px rgb(183, 255, 111))", // vivid glow

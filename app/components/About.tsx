@@ -7,8 +7,8 @@ export default function About () {
           <div
   className="flex justify-between items-center mb-6"
   style={{
-    borderBottomWidth: "2px",
-    borderImage: "linear-gradient(to right, white, transparent) 1"
+    borderBottomWidth: "1px",
+    borderImage: "linear-gradient(to right, var(--pg-color), transparent) 1"
   }}
 >
   <h2 className="text-xl font-extrabold"><span className="text-brand font-extrabold">A</span>bout</h2>
@@ -24,8 +24,8 @@ export default function About () {
 <div
   className="flex justify-between items-center pb-2"
   style={{
-    borderBottomWidth: "2px",
-    borderImage: "linear-gradient(to right, transparent, white, transparent) 1"
+    borderBottomWidth: "1px",
+    borderImage: "linear-gradient(to right, transparent, var(--pg-color), transparent) 1"
   }}
 >
   <div className="text-zinc-600 bg-brand rounded px-2">Age:</div>
@@ -35,8 +35,8 @@ export default function About () {
 <div
   className="flex justify-between items-center pb-2"
   style={{
-    borderBottomWidth: "2px",
-    borderImage: "linear-gradient(to right, transparent, white, transparent) 1"
+    borderBottomWidth: "1px",
+    borderImage: "linear-gradient(to right, transparent, var(--pg-color), transparent) 1"
   }}
 >
   <div className="text-zinc-600 bg-brand rounded px-2">Residence:</div>
@@ -46,8 +46,8 @@ export default function About () {
 <div
   className="flex justify-between items-center pb-2"
   style={{
-    borderBottomWidth: "2px",
-    borderImage: "linear-gradient(to right, transparent, white, transparent) 1"
+    borderBottomWidth: "1px",
+    borderImage: "linear-gradient(to right, transparent, var(--pg-color), transparent) 1"
   }}
 >
   <div className="text-zinc-600 bg-brand rounded px-2">Freelance:</div>

@@ -6,8 +6,8 @@ export default function Resume () {
             
             <h2 className="mb-6 font-extrabold"
             style={{
-    borderBottomWidth: "2px",
-    borderImage: "linear-gradient(to right, white, transparent) 1"
+    borderBottomWidth: "1px",
+    borderImage: "linear-gradient(to right, var(--pg-color), transparent) 1"
   }}>
     <span className="text-brand">R</span>esume</h2>
             
