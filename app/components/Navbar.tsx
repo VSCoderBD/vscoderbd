@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-// Assuming these are defined elsewhere
+import SearchBox from "./SearchBox";
 import { useDarkMode } from "./hooks/useDarkMode"; 
 import TypingAnimation from "@/lib/Animations/TypingAnimation";
 import { userLinks, secLinks } from "./data/buttons"; 
@@ -108,9 +108,12 @@ className={`
 >
             <button
             onClick={() => setIsOpen(false)}
-            className="w-full sm:absolute bg-nav  sm:w-auto sm:ml-[400px] px-6 p-4 left-0 items-center hover:text-brand"
+            className="w-full text-3xl sm:absolute bg-nav sm:w-auto sm:ml-[400px] pt-4 px-4 sm:py-2 left-0 items-center hover:text-brand"
             >✖</button>
-                <ul className="p-4 sm:ml-20">
+            <div className="p-6 sm:ml-20">
+             <SearchBox />
+             </div>
+                <ul className="p-6 sm:ml-20">
                   <li>Hello..</li>
                 </ul>
                 </div>
