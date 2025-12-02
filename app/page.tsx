@@ -9,6 +9,7 @@ import Resume from "./components/Resume";
 import Skills from "./components/Skills";
 import GetInTouch from "./components/GetInTouch";
 import ContactForm from "./components/ContactForm";
+import Blog from "./components/Blog";
 
 interface HomeProps {
   activeSection: string;
@@ -20,7 +21,8 @@ const sections = [
   { id: "about", component: <> <About /> <Services /> </> },
   { id: "resume", component: <Resume /> },
   { id: "skills", component: <Skills />},
-  { id: "contact", component: <> <GetInTouch /> <ContactForm /> </> }
+  { id: "contact", component: <> <GetInTouch /> <ContactForm /> </> },
+  { id: "blog", component: <Blog />},
 ];
 
 export default function Home({ activeSection, setActiveSection }: HomeProps) {
@@ -92,6 +94,13 @@ export default function Home({ activeSection, setActiveSection }: HomeProps) {
             className="bg-white/70 dark:bg-zinc-800/70 flex flex-col gap-5 p-5 overflow-y-auto scroll-smooth scrollbar-sec z-10"
           >
             {sections[3].component}
+          </div>
+
+          <div 
+            id={sections[4].id} // Added id="resume"
+            className="bg-white/70 dark:bg-zinc-800/70 flex flex-col gap-5 p-5 overflow-y-auto scroll-smooth scrollbar-sec z-10"
+          >
+            {sections[4].component}
           </div>
 
         </>
