@@ -12,7 +12,7 @@ export async function GET() {
       );
     }
 
-    // 1️⃣ GET CHANNEL DETAILS (FOR LOGO)
+    // --- Get channel info ---
     const channelRes = await fetch(
       `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${CHANNEL_ID}&key=${API_KEY}`
     );
@@ -22,7 +22,7 @@ export async function GET() {
       channelData.items?.[0]?.snippet?.thumbnails?.high?.url || "";
     const channelTitle = channelData.items?.[0]?.snippet?.title || "";
 
-    // 2️⃣ GET VIDEOS
+    // --- Get videos ---
     const videoRes = await fetch(
       `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=12`
     );
@@ -45,7 +45,7 @@ export async function GET() {
     });
   } catch (err) {
     return NextResponse.json(
-      { error: "Server Error", message: err },
+      { error: "Server Error", message: (err as Error).message },
       { status: 500 }
     );
   }

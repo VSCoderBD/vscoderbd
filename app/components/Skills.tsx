@@ -15,8 +15,8 @@ export default function Skills() {
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
   <section>
     <div className="gap-2 pb-2 mb-4 items-center">
-      <div className="flex gap-1 border-pg border-b pb-2">
-        <img src={"/images/svg/resume/language.svg"} />
+      <div className="flex items-center gap-1 border-pg border-b pb-2">
+        <img className="w-8" src={"/images/svg/skills/design.svg"} />
         <h3 className="font-extrabold text-lg text-pg">DESIGN</h3>
       </div>
 

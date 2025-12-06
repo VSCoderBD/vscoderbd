@@ -1,12 +1,18 @@
 "use client";
 import { useEffect, useState } from "react";
 
+interface Video {
+  id: string;
+  title: string;
+  thumbnail: string;
+}
+
 export default function BdcPress() {
-  const [videos, setVideos] = useState<any[]>([]);
+  const [videos, setVideos] = useState<Video[]>([]);
   const [loading, setLoading] = useState(true);
   const [channelLogo, setChannelLogo] = useState("");
   const [channelId, setChannelId] = useState("");
-  const [playing, setPlaying] = useState<string | null>(null); // 🔥 নতুন state (কোন ভিডিও প্লে হচ্ছে)
+  const [playing, setPlaying] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -17,7 +23,8 @@ export default function BdcPress() {
         setVideos(data.videos || []);
         setChannelLogo(data.channelLogo || "");
         setChannelId(data.channelId || "");
-      } catch {
+      } catch (err) {
+        console.error("Error fetching videos:", err);
         setVideos([]);
       } finally {
         setLoading(false);
@@ -30,48 +37,57 @@ export default function BdcPress() {
   if (!videos.length) return <p>No videos found.</p>;
 
   return (
-    <div className="w-full">
-      {/* Top Channel Info */}
+    <div className="w-full text-pg">
+      {/* Header */}
+      <div className="flex w-full gap-2 text-lg mb-4 pb-2 font-extrabold items-center border-b border-pg">
+        <img className="w-7 h-7" src="/images/svg/media/yt.svg" alt="YouTube" />
+        <h3 className="font-extrabold">DBC PRESS</h3>
+      </div>
+
+      {/* Channel info */}
       <div className="flex items-center gap-3 mb-4">
         {channelLogo && (
           <img
             src={channelLogo}
-            className="w-12 h-12 rounded-full border shadow"
             alt="channel logo"
+            className="w-12 h-12 rounded-full border shadow"
           />
         )}
-              <a
-                href={`https://www.youtube.com/channel/${channelId}?sub_confirmation=1`}
-                target="_blank"
-                className="text-xs px-2 py-1 bg-red-600 text-white rounded"
-              >
-                Subscribe
-              </a>
+        {channelId && (
+          <a
+            href={`https://www.youtube.com/channel/${channelId}?sub_confirmation=1`}
+            target="_blank"
+            className="text-xs px-2 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition"
+          >
+            Subscribe
+          </a>
+        )}
       </div>
 
-      {/* Videos Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+      {/* Video grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
         {videos.map((video) => (
-          <div key={video.id} className="border rounded-lg overflow-hidden shadow bg-foreground">
-            
-            {/* ------- Thumbnail OR Player ------- */}
-            <div className="relative">
+          <div key={video.id} className="border rounded-lg overflow-hidden shadow bg-white">
+            {/* Thumbnail / Player */}
+            <div className="relative w-full">
               {playing === video.id ? (
-                /* ---- Inline Iframe Player ---- */
                 <iframe
                   className="w-full h-40 sm:h-44 lg:h-48"
                   src={`https://www.youtube.com/embed/${video.id}?autoplay=1`}
+                  title={video.title}
                   allow="autoplay; encrypted-media"
                 />
               ) : (
-                /* ---- Thumbnail with Play button ---- */
                 <div
-                  onClick={() => setPlaying(video.id)}
                   className="relative cursor-pointer"
+                  onClick={() => setPlaying(video.id)}
                 >
-                  <img src={video.thumbnail} className="w-full" alt={video.title} />
-
-                  {/* Play Icon */}
+                  <img
+                    src={video.thumbnail}
+                    alt={video.title}
+                    className="w-full h-40 sm:h-44 lg:h-48 object-cover"
+                  />
+                  {/* Play button overlay */}
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="bg-black bg-opacity-50 rounded-full p-3">
                       <svg
@@ -87,15 +103,10 @@ export default function BdcPress() {
               )}
             </div>
 
-            {/* Title + Subscribe */}
-            <div className="flex justify-between items-start p-2 gap-2">
-              <p className="font-semibold text-background text-sm line-clamp-2 w-[70%]">
-                {video.title}
-              </p>
-
-
+            {/* Video title */}
+            <div className="p-2">
+              <p className="text-sm font-semibold line-clamp-2">{video.title}</p>
             </div>
-
           </div>
         ))}
       </div>

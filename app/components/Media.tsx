@@ -1,13 +1,12 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 
 // --- CONSTANTS ---
-const SIDE_SIZE = 160;
-const CENTER_SIZE = 160;
+const SIDE_SIZE = 120;
+const CENTER_SIZE = 120;
 const GAP = 16;
 const TRANSITION_DURATION = 500;
-const VISIBLE_WIDTH = SIDE_SIZE * 2 + CENTER_SIZE + GAP * 2;
 
 export default function Media() {
   const images = [
@@ -17,44 +16,40 @@ export default function Media() {
     "/images/images/5.jpg",
     "/images/images/2.jpeg",
     "/images/images/3.jpg",
-    "/images/images/4.jpg",
-    "/images/images/5.jpg",
-       "/images/images/2.jpeg",
-    "/images/images/3.jpg",
-    "/images/images/4.jpg",
-    "/images/images/5.jpg",
-    "/images/images/2.jpeg",
-    "/images/images/3.jpg",
-    "/images/images/4.jpg",
-    "/images/images/5.jpg",
-       "/images/images/2.jpeg",
-    "/images/images/3.jpg",
-    "/images/images/4.jpg",
-    "/images/images/5.jpg",
-    "/images/images/2.jpeg",
-    "/images/images/3.jpg",
-    "/images/images/4.jpg",
-    "/images/images/5.jpg",
-    
   ];
 
   const total = images.length;
-  const sliderImages = [...images, ...images, ...images];
-
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [offset, setOffset] = useState(0);
   const [transitioning, setTransitioning] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
+  const [containerWidth, setContainerWidth] = useState(0);
+  const [sideCount, setSideCount] = useState(1); // number of side images
 
-  const slideInterval = useRef<NodeJS.Timeout | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const slideInterval = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // --- Responsive side images count ---
+  useLayoutEffect(() => {
+    const updateWidth = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.offsetWidth);
+
+        if (window.innerWidth < 640) setSideCount(1); // mobile
+        else if (window.innerWidth < 1024) setSideCount(2); // sm/md
+        else setSideCount(3); // lg
+      }
+    };
+
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
+  }, []);
 
   // --- AUTOPLAY ---
   useEffect(() => {
-    if (total > 1) {
-      startAutoSlide();
-    }
-    return () => stopAutoSlide();
-  }, [currentIndex, total]);
+    startAutoSlide();
+    return stopAutoSlide;
+  }, []);
 
   const startAutoSlide = () => {
     stopAutoSlide();
@@ -70,29 +65,24 @@ export default function Media() {
     setTransitioning(true);
     stopAutoSlide();
 
-    const moveStep =
-      direction === "next" ? -(CENTER_SIZE + GAP) : CENTER_SIZE + GAP;
-
-    setOffset(moveStep);
-
     setTimeout(() => {
-      let newIndex =
-        direction === "next"
-          ? (currentIndex + 1) % total
-          : (currentIndex - 1 + total) % total;
-
-      setCurrentIndex(newIndex);
-      setOffset(0);
+      setCurrentIndex((prev) =>
+        direction === "next" ? (prev + 1) % total : (prev - 1 + total) % total
+      );
       setTransitioning(false);
       startAutoSlide();
     }, TRANSITION_DURATION);
   };
 
-  const totalItemWidth = CENTER_SIZE + GAP;
+  // --- Calculate VISIBLE_WIDTH dynamically ---
+  const VISIBLE_WIDTH =
+    CENTER_SIZE + SIDE_SIZE * sideCount * 2 + GAP * (sideCount * 2 + 1);
+
+  // --- Calculate transform to center the current image ---
+  const totalItemWidth = CENTER_SIZE + GAP; // only center item for simplicity
   const positionOfCurrentElementStart = currentIndex * totalItemWidth;
-  const requiredShift =
-    positionOfCurrentElementStart + CENTER_SIZE / 2 - VISIBLE_WIDTH / 2;
-  const finalTransform = `translateX(${-requiredShift + offset}px)`;
+  const requiredShift = positionOfCurrentElementStart + CENTER_SIZE / 2 - VISIBLE_WIDTH / 2;
+  const finalTransform = `translateX(${-requiredShift}px)`;
 
   return (
     <main className="flex flex-col w-full text-pg items-center">
@@ -102,38 +92,32 @@ export default function Media() {
         </h2>
       </div>
 
-      <div className="flex w-full gap-1 text-lg mb-4 pb-2 font-extrabold items-center border-pg border-b">
-        <img className="w-8" src={"/images/svg/media/slider.svg"} />
-        <h3 className="font-extrabold">SLIDER</h3>
-      </div>
-      {/* --- CAROUSEL --- */}
+      {/* Slider */}
       <div
-        className="relative h-full flex justify-center items-center overflow-hidden"
+        ref={containerRef}
+        className="relative flex justify-center items-center overflow-hidden w-full max-w-full"
         style={{ width: `${VISIBLE_WIDTH}px` }}
       >
-        {/* --- LEFT BUTTON --- */}
+        {/* Left Button */}
         <button
           onClick={() => handleSlide("prev")}
-          className="absolute left-7  text-3xl text-white/40 hover:text-brand  top-1/2 -translate-y-1/2 duration-500 transition p-2 rounded-full z-20"
+          disabled={transitioning}
+          className="absolute left-3 sm:left-7 text-3xl text-white/40 hover:text-brand top-1/2 -translate-y-1/2 p-2 rounded-full z-20 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           ◀
         </button>
 
-        {/* --- SLIDER --- */}
+        {/* Slider Track */}
         <div
           className="flex items-center"
           style={{
             transform: finalTransform,
-            transition: transitioning
-              ? `transform ${TRANSITION_DURATION}ms ease-in-out`
-              : "none",
+            transition: `transform ${TRANSITION_DURATION}ms ease-in-out`,
           }}
         >
-          {sliderImages.map((img, i) => {
-            const isCenter = i % total === currentIndex;
+          {images.map((img, i) => {
+            const isCenter = i === currentIndex;
             const size = isCenter ? CENTER_SIZE : SIDE_SIZE;
-            const opacity = isCenter ? 1 : 0.7;
-
             return (
               <img
                 key={i}
@@ -145,23 +129,24 @@ export default function Media() {
                   width: size,
                   height: size,
                   marginRight: `${GAP}px`,
-                  opacity: opacity,
+                  opacity: isCenter ? 1 : 0.6,
                 }}
               />
             );
           })}
         </div>
 
-        {/* --- RIGHT BUTTON --- */}
+        {/* Right Button */}
         <button
           onClick={() => handleSlide("next")}
-          className="absolute right-7 top-1/2  -translate-y-1/2 text-3xl text-white/40 hover:text-brand duration-500 transition p-2 rounded-full z-20"
+          disabled={transitioning}
+          className="absolute right-3 sm:right-7 text-3xl text-white/40 hover:text-brand top-1/2 -translate-y-1/2 p-2 rounded-full z-20 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           ▶
         </button>
       </div>
 
-      {/* FULLSCREEN VIEW */}
+      {/* FULLSCREEN */}
       {fullscreen && (
         <div
           onClick={() => setFullscreen(false)}
