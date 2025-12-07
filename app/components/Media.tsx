@@ -93,7 +93,7 @@ export default function Media() {
     borderImage: "linear-gradient(to right, var(--pg-color), transparent) 1"
   }}>
     <span className="text-brand">M</span>edia</h2>
-      <div className="flex items-center text-foreground border-b border-pg pb-2 w-full mb-6">
+      <div className="flex gap-1 items-center text-foreground border-b border-pg pb-2 w-full mb-6">
         <img className="w-7" src={"/images/svg/media/slider.svg"} />
         <h3 className="font-extrabold">SLIDER</h3>
       </div>

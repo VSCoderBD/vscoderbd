@@ -46,7 +46,7 @@ export default function BdcPress() {
   return (
     <main>
     <div className="flex justify-between gap-1 mb-4 pb-2 font-extrabold items-center border-pg border-b">
-      <div className="flex items-center">
+      <div className="flex gap-1 items-center">
                     <img className="w-7" src={"/images/svg/media/yt.svg"} />
                     <h3 className="font-extrabold">BDC PRESS</h3>
                     </div>
