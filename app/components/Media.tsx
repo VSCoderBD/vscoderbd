@@ -10,12 +10,13 @@ const TRANSITION_DURATION = 500;
 
 export default function Media() {
   const images = [
-    "/images/images/2.jpeg",
-    "/images/images/3.jpg",
-    "/images/images/4.jpg",
-    "/images/images/5.jpg",
-    "/images/images/2.jpeg",
-    "/images/images/3.jpg",
+    "/images/images/2.jpeg", "/images/images/3.jpg", "/images/images/4.jpg", "/images/images/5.jpg", "/images/images/2.jpeg", "/images/images/3.jpg",
+        "/images/images/2.jpeg", "/images/images/3.jpg", "/images/images/4.jpg", "/images/images/5.jpg", "/images/images/2.jpeg", "/images/images/3.jpg",
+    "/images/images/2.jpeg", "/images/images/3.jpg", "/images/images/4.jpg", "/images/images/5.jpg", "/images/images/2.jpeg", "/images/images/3.jpg",
+    "/images/images/2.jpeg", "/images/images/3.jpg", "/images/images/4.jpg", "/images/images/5.jpg", "/images/images/2.jpeg", "/images/images/3.jpg",
+    "/images/images/2.jpeg", "/images/images/3.jpg", "/images/images/4.jpg", "/images/images/5.jpg", "/images/images/2.jpeg", "/images/images/3.jpg",
+    "/images/images/2.jpeg", "/images/images/3.jpg", "/images/images/4.jpg", "/images/images/5.jpg", "/images/images/2.jpeg", "/images/images/3.jpg",
+    "/images/images/2.jpeg", "/images/images/3.jpg", "/images/images/4.jpg", "/images/images/5.jpg", "/images/images/2.jpeg", "/images/images/3.jpg",
   ];
 
   const total = images.length;
@@ -53,7 +54,7 @@ export default function Media() {
 
   const startAutoSlide = () => {
     stopAutoSlide();
-    slideInterval.current = setInterval(() => handleSlide("next"), 3000);
+    slideInterval.current = setInterval(() => handleSlide("next"), 500);
   };
 
   const stopAutoSlide = () => {
@@ -86,10 +87,15 @@ export default function Media() {
 
   return (
     <main className="flex flex-col w-full text-pg items-center">
-      <div className="text-foreground border-b border-pg pb-2 w-full mb-6">
-        <h2 className="text-xl font-extrabold">
-          <span className="text-brand font-extrabold">M</span>edia
-        </h2>
+      <h2 className="mb-6 w-full text-foreground font-extrabold"
+            style={{
+    borderBottomWidth: "1px",
+    borderImage: "linear-gradient(to right, var(--pg-color), transparent) 1"
+  }}>
+    <span className="text-brand">M</span>edia</h2>
+      <div className="flex items-center text-foreground border-b border-pg pb-2 w-full mb-6">
+        <img className="w-7" src={"/images/svg/media/slider.svg"} />
+        <h3 className="font-extrabold">SLIDER</h3>
       </div>
 
       {/* Slider */}
